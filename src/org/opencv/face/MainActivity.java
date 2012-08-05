@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 
 	Button detect_face,add_name,take_picture;
 	TextView tv ;
+	TextView detectedName;
 	private String File_Image_TAG = new String ("image_db");
 	private String File_Name_TAG = new String ("name_db");
 	public static Map<Integer, String> idToImage;
@@ -106,6 +107,9 @@ public class MainActivity extends Activity {
         tv = (TextView) findViewById(R.id.name);
         tv.setVisibility(View.GONE);
         
+        detectedName = (TextView) findViewById(R.id.Detected_name);
+        detectedName.setVisibility(View.GONE);
+        
         captured_image = (ImageView)findViewById(R.id.captured_image);
         if(!pictureTaken){
         	captured_image.setVisibility(View.GONE);
@@ -122,6 +126,8 @@ public class MainActivity extends Activity {
             	}
             	else{
 //            		TODO: Print the hash value for ID obtained.
+            		detectedName.setVisibility(View.VISIBLE);
+            		detectedName.setText(Name_obt!=null?Name_obt:"");
             	}
         	}
             else
@@ -164,6 +170,7 @@ public class MainActivity extends Activity {
             	String Name=null;
             	if(return_id != -1 ){
             		Name = new String(idToName.get(return_id));
+            		MainActivity.recognized=true;
             	}
             	startActivity(getIntent().putExtra("Name", Name));
             	//TODO : Add Face Detection
