@@ -25,7 +25,7 @@ class Sample3View extends SampleViewBase {
         try{
         InputStream is = context.getResources().openRawResource(R.raw.haarcascade_frontalface_alt2);
         File cascadeDir = context.getDir("cascade", Context.MODE_PRIVATE);
-        mCascadeFile = new File(cascadeDir, "haarcascade_frontalface_alt2.xml");
+        mCascadeFile = new File(MainActivity.working_Dir, "haarcascade_frontalface_alt2.xml");
         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
         byte[] buffer = new byte[4096];

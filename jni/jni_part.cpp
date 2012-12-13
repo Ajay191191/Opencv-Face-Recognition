@@ -60,12 +60,20 @@ JNIEXPORT void JNICALL Java_org_opencv_face_Sample3View_FindFaces(JNIEnv* env, j
 		LOGD("Image = %s ",stdImageName.c_str());
 
 		CascadeClassifier haar_cascade;
-		haar_cascade.load(stdFileName);
+		if(haar_cascade.load(stdFileName)){
+			LOGD("Haar successfully loaded");
+		}
+		LOGD("cascade : %s ",stdFileName.c_str());
 		Mat original = imread(stdImageName+".jpg", 1);
-		Mat gray = original.clone();
+		if(! original.data )                       // Check for invalid input
+		{
+		    LOGD("Could not load image");
+		}
+		Mat gray ;//= original.clone();
 		cvtColor(original,gray,CV_BGR2GRAY);
 		vector< Rect_<int> > faces;
-		haar_cascade.detectMultiScale(gray, faces, 1.1, 3, 0, Size(20,60), Size(50,100));
+		haar_cascade.detectMultiScale(gray, faces, 1.1, 3, 0, Size(20,60));
+		LOGD("FACES : %d ",faces.size());
 		if(faces.size()>0) {
 			Rect face_i = faces[0];
 			Mat original_face = original(face_i);
@@ -134,7 +142,7 @@ JNIEXPORT int JNICALL Java_org_opencv_face_Sample3View_Find(JNIEnv* env, jobject
 			Mat gray = original.clone();
 			cvtColor(original,gray,CV_BGR2GRAY);
 			vector< Rect_<int> > faces;
-			haar_cascade.detectMultiScale(gray, faces, 1.1, 3, 0, Size(20,60), Size(50,100));
+			haar_cascade.detectMultiScale(gray, faces, 1.1, 3, 0, Size(20,60));
 			LOGD("No of faces = %d",faces.size());
 			for(int i = 0; i < faces.size(); i++) {
 				// Process face by face:

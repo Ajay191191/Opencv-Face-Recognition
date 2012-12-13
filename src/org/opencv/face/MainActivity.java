@@ -162,6 +162,7 @@ public class MainActivity extends Activity {
 			
 			if(v.equals(findViewById(R.id.detect_face))){
 				new Sample3View(getApplicationContext()).FindFaces(working_Dir.getAbsolutePath()+"/"+current_name, Sample3View.mCascadeFile.getAbsolutePath().toString());
+				Log.d("Ajay","Image dir:"+working_Dir.getAbsolutePath()+"/"+current_name);
 				File f = new File(MainActivity.working_Dir,"csv.txt");
 				int return_id=-1;
 				if(f.exists() && MainActivity.ID>1)
@@ -194,7 +195,23 @@ public class MainActivity extends Activity {
             	
             	
             	File f = new File(MainActivity.working_Dir,MainActivity.current_name+"_det.jpg");
+            	if (!f.exists()) {
+            	        try {
+            	            f.createNewFile();
+            	        } catch (IOException e) {
+            	            e.printStackTrace();
+            	        }
+            	}
+            	
             	File f_new = new File(MainActivity.working_Dir,new_name+".jpg");
+            	if (!f_new.exists()) {
+        	        try {
+        	            f_new.createNewFile();
+        	        } catch (IOException e) {
+        	            e.printStackTrace();
+        	        }
+            	}
+            	Log.i("Ajay",MainActivity.working_Dir+"");
             	f.renameTo(f_new);
             	f = new File(MainActivity.working_Dir,new_name+"1.jpg");
             	

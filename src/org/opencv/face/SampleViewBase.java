@@ -2,14 +2,14 @@ package org.opencv.face;
 
 import java.io.IOException;
 import java.util.List;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ImageFormat;
-//import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PreviewCallback;
-import android.os.Build;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -45,9 +45,20 @@ public abstract class SampleViewBase extends SurfaceView implements SurfaceHolde
         	mCamera.setPreviewDisplay(null);
 	}
 
+    int getFrontCameraId() {
+        CameraInfo ci = new CameraInfo();
+        for (int i = 0 ; i < Camera.getNumberOfCameras(); i++) {
+            Camera.getCameraInfo(i, ci);
+            if (ci.facing == CameraInfo.CAMERA_FACING_FRONT) return i;
+        }
+        return -1; // No front-facing camera found
+    }
     public boolean openCamera() {
         Log.i(TAG, "openCamera");
         releaseCamera();
+        int cam=getFrontCameraId();
+        Log.i("Ajay",cam+"ID");
+       // if(cam!=-1)
         mCamera = Camera.open();
         if(mCamera == null) {
         	Log.e(TAG, "Can't open camera!");
